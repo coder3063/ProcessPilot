@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
+    <top>
+        <VBox style="-fx-background-color: #2c3e50; -fx-padding: 15;">
+            <Label text="ProcessPilot - Advanced CPU Scheduling Simulator" 
+                   style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Label text="Analyze and compare different CPU scheduling algorithms" 
+                   style="-fx-font-size: 12; -fx-text-fill: #ecf0f1; -fx-padding: 5,0,0,0;"/>
+        </VBox>
+    </top>
+
+    <center>
+        <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE" style="-fx-font-size: 12;">
+            <!-- ======== INPUT TAB ======== -->
+            <Tab text="📥 Process Input">
+                <VBox spacing="15" style="-fx-padding: 20;">
+                    
+                    <!-- Sample Data Section -->
+                    <TitledPane text="📊 Load Sample Data" collapsible="false">
+                        <HBox spacing="10" style="-fx-padding: 10;">
+                            <ComboBox fx:id="sampleDataCombo" prefWidth="250"/>
+                            <Button fx:id="loadSampleButton" text="Load Dataset" style="-fx-padding: 8,20,8,20;"/>
+                        </HBox>
+                    </TitledPane>
+
+                    <!-- Manual Input Section -->
+                    <TitledPane text="✏️ Manual Process Input" collapsible="false">
+                        <VBox spacing="10" style="-fx-padding: 10;">
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="Process Table:"/>
+                                <Button fx:id="addProcessButton" text="+ Add Process" style="-fx-padding: 5,15,5,15;"/>
+                                <Button fx:id="clearTableButton" text="Clear All" style="-fx-padding: 5,15,5,15;"/>
+                            </HBox>
+
+                            <TableView fx:id="processTableView" prefHeight="200">
+                                <columns>
+                                    <TableColumn fx:id="processIdColumn" text="Process ID" prefWidth="80"/>
+                                    <TableColumn fx:id="arrivalColumn" text="Arrival Time" prefWidth="100"/>
+                                    <TableColumn fx:id="burstColumn" text="Burst Time" prefWidth="100"/>
+                                    <TableColumn fx:id="priorityColumn" text="Priority" prefWidth="80"/>
+                                </columns>
+                            </TableView>
+
+                            <HBox spacing="10">
+                                <Label text="Tip: Double-click cells to edit. Priority: 0=highest, higher number=lower priority"/>
+                            </HBox>
+                        </VBox>
+                    </TitledPane>
+                </VBox>
+            </Tab>
+
+            <!-- ======== SCHEDULER TAB ======== -->
+            <Tab text="⚙️ Scheduler">
+                <VBox spacing="15" style="-fx-padding: 20;">
+                    
+                    <TitledPane text="🔧 Algorithm Selection" collapsible="false">
+                        <VBox spacing="10" style="-fx-padding: 10;">
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="Select Algorithm:" prefWidth="120"/>
+                                <ComboBox fx:id="algorithmCombo" prefWidth="300"/>
+                            </HBox>
+
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="Time Quantum:" prefWidth="120"/>
+                                <Spinner fx:id="timeQuantumSpinner" prefWidth="100"/>
+                                <Label text="(For Round Robin)"/>
+                            </HBox>
+                        </VBox>
+                    </TitledPane>
+
+                    <TitledPane text="▶️ Execution" collapsible="false">
+                        <VBox spacing="10" style="-fx-padding: 10;">
+                            <ProgressBar fx:id="schedulingProgress" prefWidth="300" prefHeight="30" visible="false"/>
+                            <Button fx:id="runSchedulerButton" text="▶ Run Selected Scheduler" 
+                                    prefHeight="40" prefWidth="300"
+                                    style="-fx-font-size: 14; -fx-padding: 10;"/>
+                        </VBox>
+                    </TitledPane>
+
+                    <Region VBox.vgrow="ALWAYS"/>
+                </VBox>
+            </Tab>
+
+            <!-- ======== RESULTS TAB ======== -->
+            <Tab text="📊 Results">
+                <VBox spacing="15" style="-fx-padding: 20;">
+                    
+                    <!-- Metrics Section -->
+                    <TitledPane text="📈 Performance Metrics" collapsible="false">
+                        <HBox spacing="30" style="-fx-padding: 15;">
+                            <VBox spacing="5" alignment="CENTER">
+                                <Label text="Avg Waiting Time" style="-fx-font-weight: bold;"/>
+                                <Label fx:id="avgWaitingTimeLabel" text="0.00" style="-fx-font-size: 16; -fx-text-fill: #3498db;"/>
+                            </VBox>
+                            <VBox spacing="5" alignment="CENTER">
+                                <Label text="Avg Turnaround Time" style="-fx-font-weight: bold;"/>
+                                <Label fx:id="avgTurnaroundLabel" text="0.00" style="-fx-font-size: 16; -fx-text-fill: #e74c3c;"/>
+                            </VBox>
+                            <VBox spacing="5" alignment="CENTER">
+                                <Label text="CPU Utilization" style="-fx-font-weight: bold;"/>
+                                <Label fx:id="cpuUtilLabel" text="0.00%" style="-fx-font-size: 16; -fx-text-fill: #2ecc71;"/>
+                            </VBox>
+                        </HBox>
+                    </TitledPane>
+
+                    <!-- Gantt Chart Section -->
+                    <TitledPane text="📊 Gantt Chart" collapsible="false">
+                        <TextArea fx:id="ganttChartArea" prefHeight="120" wrapText="false" 
+                                  style="-fx-font-family: 'Courier New'; -fx-font-size: 11;"/>
+                    </TitledPane>
+
+                    <!-- Results Table Section -->
+                    <TitledPane text="📋 Process Details" collapsible="false">
+                        <TableView fx:id="resultsTableView" prefHeight="150">
+                            <columns>
+                                <TableColumn fx:id="resultPidColumn" text="Process" prefWidth="70"/>
+                                <TableColumn fx:id="resultArrivalColumn" text="Arrival" prefWidth="70"/>
+                                <TableColumn fx:id="resultBurstColumn" text="Burst" prefWidth="70"/>
+                                <TableColumn fx:id="resultCompletionColumn" text="Completion" prefWidth="90"/>
+                                <TableColumn fx:id="resultWaitingColumn" text="Waiting Time" prefWidth="90"/>
+                                <TableColumn fx:id="resultTurnaroundColumn" text="Turnaround Time" prefWidth="100"/>
+                            </columns>
+                        </TableView>
+                    </TitledPane>
+                </VBox>
+            </Tab>
+
+            <!-- ======== COMPARISON TAB ======== -->
+            <Tab text="📊 Compare All">
+                <VBox spacing="15" style="-fx-padding: 20;">
+                    
+                    <Button fx:id="runComparisonButton" text="▶ Run All Algorithms (7 variants)" 
+                            prefHeight="40" prefWidth="350"
+                            style="-fx-font-size: 14; -fx-padding: 10; -fx-font-weight: bold;"/>
+
+                    <!-- Comparison Table Section -->
+                    <TitledPane text="📊 Algorithm Comparison" collapsible="false">
+                        <TableView fx:id="comparisonTableView" prefHeight="150">
+                            <columns>
+                                <TableColumn fx:id="algNameColumn" text="Algorithm" prefWidth="250"/>
+                                <TableColumn fx:id="compWaitingColumn" text="Avg Waiting Time" prefWidth="130"/>
+                                <TableColumn fx:id="compTurnaroundColumn" text="Avg Turnaround Time" prefWidth="130"/>
+                                <TableColumn fx:id="compUtilColumn" text="CPU Utilization" prefWidth="110"/>
+                            </columns>
+                        </TableView>
+                    </TitledPane>
+
+                    <!-- Details Section -->
+                    <TitledPane text="📝 Detailed Comparison" collapsible="false">
+                        <TextArea fx:id="comparisonDetailsArea" prefHeight="200" wrapText="true"
+                                  style="-fx-font-family: 'Courier New'; -fx-font-size: 11;"/>
+                    </TitledPane>
+                </VBox>
+            </Tab>
+        </TabPane>
+    </center>
+
+    <bottom>
+        <VBox style="-fx-background-color: #ecf0f1; -fx-padding: 10;">
+            <Label text="ProcessPilot v1.0 | Advanced CPU Scheduling Simulator | Java + JavaFX" 
+                   style="-fx-font-size: 10; -fx-text-fill: #7f8c8d;"/>
+        </VBox>
+    </bottom>
+</BorderPane>

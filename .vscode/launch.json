@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run GUI App",
+            "type": "java",
+            "name": "Launch ProcessPilot GUI",
+            "request": "launch",
+            "mainClass": "ui.MainApp",
+            "projectName": "ProcessPilot",
+            "cwd": "${workspaceFolder}",
+            "args": "",
+            "vmArgs": "--module-path i:/javafx-sdk-20.0.2/lib --add-modules javafx.controls,javafx.fxml,javafx.graphics"
+        },
+        {
+            "name": "Run Console App",
+            "type": "java",
+            "name": "Launch ProcessPilot Console",
+            "request": "launch",
+            "mainClass": "ProcessPilot",
+            "projectName": "ProcessPilot",
+            "cwd": "${workspaceFolder}",
+            "args": ""
+        }
+    ]
+}

@@ -1,0 +1,92 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Console App",
+            "type": "shell",
+            "command": "javac",
+            "args": [
+                "-d", "build",
+                "src/ProcessPilot.java",
+                "src/models/*.java",
+                "src/algorithms/*.java",
+                "src/utils/*.java",
+                "src/visualization/*.java"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Build GUI App (with JavaFX)",
+            "type": "shell",
+            "command": "javac",
+            "args": [
+                "--module-path", "i:/javafx-sdk-20.0.2/lib",
+                "--add-modules", "javafx.controls,javafx.fxml,javafx.graphics",
+                "-cp", "resources",
+                "-d", "build",
+                "src/ui/MainApp.java",
+                "src/ui/Controller.java",
+                "src/models/*.java",
+                "src/algorithms/*.java",
+                "src/utils/*.java",
+                "src/visualization/*.java"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": [
+                "$javac"
+            ]
+        },
+        {
+            "label": "Run Console App",
+            "type": "shell",
+            "command": "java",
+            "args": [
+                "-cp", "build",
+                "ProcessPilot"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "dependsOn": ["Build Console App"]
+        },
+        {
+            "label": "Run GUI App (with JavaFX)",
+            "type": "shell",
+            "command": "java",
+            "args": [
+                "--module-path", "i:/javafx-sdk-20.0.2/lib",
+                "--add-modules", "javafx.controls,javafx.fxml,javafx.graphics",
+                "-cp", "build;resources",
+                "ui.MainApp"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "dependsOn": ["Build GUI App (with JavaFX)"]
+        }
+    ]
+}

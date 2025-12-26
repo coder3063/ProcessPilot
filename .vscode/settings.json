@@ -1,0 +1,19 @@
+{
+    "java.project.referencedLibraries": [
+        "i:/javafx-sdk-20.0.2/lib/**/*.jar"
+    ],
+    "java.dependency.packagePresentation": "flat",
+    "[java]": {
+        "editor.defaultFormatter": "redhat.java",
+        "editor.formatOnSave": true
+    },
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-20",
+            "path": "C:\\Program Files\\Java\\jdk-20.0.2",
+            "default": true
+        }
+    ],
+    "java.project.sourceDirectories": ["src"],
+    "java.project.outputDirectory": "build"
+}
